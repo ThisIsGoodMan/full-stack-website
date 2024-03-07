@@ -1,19 +1,21 @@
 import React from "react";
 import classes from "./Navbar.module.css";
-import { MantineLogo } from "@mantine/ds";
 import { Container, Group, Burger, Drawer, Stack } from "@mantine/core";
 import useLinks from "./useLinks";
 import { DrawerContext } from "../../Contexts/drawerContext";
 import SVGComponent from "../SVGComponent";
 import { Link } from "react-router-dom";
+import useBoundStore from "../../store/Store";
 
 const Navbar = () => {
   const { opened, toggle } = React.useContext(DrawerContext);
   const [items] = useLinks();
+  const { user } = useBoundStore();
 
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
+        {/* <p>Hey, { user }!</p> */}
       <Link to="/">
           <SVGComponent width={28} />
         </Link>

@@ -70,4 +70,4 @@ app.post("/api/posts", (req, res) => {
   res.status(200).json({ success: true });
 });
 
-app.listen(port, () => console.log("Server is running"));
+app.listen(port, () => console.log("Server is running!"));

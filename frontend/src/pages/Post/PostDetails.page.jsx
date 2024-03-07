@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 import { Button, Container } from "@mantine/core";
-import { useEffect, useState } from "react";
 
 function PostDetailsPage() {
   return (
@@ -18,8 +17,10 @@ function PostDetailsPage() {
 }
 
 export const postDetailsLoader = async ({ params }) => {
-  // do something with this
-  return null;
-};
+    const res = await axios.get(`${DOMAIN}/api/posts/${params.id.toString()}`);
+    // console.log("I ran!");
+    return res.data;
+  };
+
 
 export default PostDetailsPage;
