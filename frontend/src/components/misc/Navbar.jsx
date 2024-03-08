@@ -11,14 +11,20 @@ const Navbar = () => {
   const { opened, toggle } = React.useContext(DrawerContext);
   const [items] = useLinks();
   const { user } = useBoundStore();
+  
+  const extractUsername = (email) => {
+    return email.split("@")[0];
+  };
+  
+  console.log("User:", user);
 
   return (
     <header className={classes.header}>
       <Container size="md" className={classes.inner}>
-        {/* <p>Hey, { user }!</p> */}
-      <Link to="/">
+        <Link to="/">
           <SVGComponent width={28} />
         </Link>
+        {user && <p>Hey, {extractUsername(user.email)}!</p>}
         <Group gap={5} visibleFrom="xs">
           {items}
         </Group>
