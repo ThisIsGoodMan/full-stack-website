@@ -13,6 +13,8 @@ import {
 import { PostPage, postsLoader } from "./pages/Post/Post.page";
 import { postDetailsLoader } from "./pages/Post/PostDetails.page";
 import PostDetailsPage from "./pages/Post/PostDetails.page";
+import EditPostPage from "./pages/Post/PostEdit.page";
+
 
 export const Router = () => {
   const authCheck = useBoundStore((state) => {
@@ -59,6 +61,15 @@ export const Router = () => {
           element={
             <ProtectedRoute isAllowed={!!authCheck}>
               <PostDetailsPage />
+            </ProtectedRoute>
+          }
+          loader={postDetailsLoader}
+        />
+         <Route
+          path="/posts/:id/edit"
+          element={
+            <ProtectedRoute isAllowed={!!authCheck}>
+              <EditPostPage />
             </ProtectedRoute>
           }
           loader={postDetailsLoader}

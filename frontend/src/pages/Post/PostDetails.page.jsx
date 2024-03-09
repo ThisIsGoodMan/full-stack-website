@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 import { Button, Container } from "@mantine/core";
+// import styles from "./PostDetails.page.module.css";
 
 function PostDetailsPage() {
   const { id } = useParams();
@@ -25,12 +26,15 @@ function PostDetailsPage() {
     <>
       <Container>
         {post ? (
-          <>
+          <div className="postdetails">
             <img src={post.image} alt={post.title} />
             <h2>{post.title}</h2>
             <h4>Category: {post.category}</h4>
             <p>{post.content}</p>
-          </>
+            <Button style={{marginBottom: "5px"}}>
+              <Link to={`/posts/${id}/edit`}>Edit Details</Link>
+            </Button>
+          </div>
         ) : (
           <p>Loading...</p>
         )}
