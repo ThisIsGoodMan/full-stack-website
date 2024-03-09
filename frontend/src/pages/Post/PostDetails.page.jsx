@@ -8,12 +8,31 @@ import { Button, Container } from "@mantine/core";
 function PostDetailsPage() {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
         const res = await axios.get(`${DOMAIN}/api/posts/${id}`);
         setPost(res.data);
+
+        // Fetch user details based on the userId from the post
+        const userId = res.data.userId;
+
+        if (userId) {
+          try {
+            const userRes = await axios.get(`${DOMAIN}/api/users/${userId}`);
+            setUser(userRes.data);
+          } catch (userError) {
+            // Handle user not found gracefully
+            console.error("Error fetching user details:", userError);
+            setUser(null);
+          }
+        } else {
+          // No userId found in the post
+          console.warn("No userId found in the post:", res.data);
+          setUser(null);
+        }
       } catch (error) {
         console.error("Error fetching post details:", error);
       }
@@ -21,6 +40,12 @@ function PostDetailsPage() {
 
     fetchPostDetails();
   }, [id]);
+
+  // Function to extract user name from email
+  const extractUserName = (email) => {
+    const atIndex = email ? email.indexOf('@') : -1;
+    return atIndex !== -1 ? email.substring(0, atIndex) : email;
+  };
 
   return (
     <>
@@ -31,8 +56,13 @@ function PostDetailsPage() {
             <h2>{post.title}</h2>
             <h4>Category: {post.category}</h4>
             <p>{post.content}</p>
-            <Button style={{marginBottom: "5px"}}>
-              <Link to={`/posts/${id}/edit`}>Edit Details</Link>
+            {user && user.email ? (
+              <p>Posted by: {extractUserName(user.email)}</p>
+            ) : (
+              <p>Posted by: User not found :(</p>
+            )}
+            <Button style={{ marginBottom: "5px" }}>
+              <Link to={`/posts/${id}/edit`}>Edit Post</Link>
             </Button>
           </div>
         ) : (
@@ -47,10 +77,9 @@ function PostDetailsPage() {
 }
 
 export const postDetailsLoader = async ({ params }) => {
-    const res = await axios.get(`${DOMAIN}/api/posts/${params.id.toString()}`);
-    console.log("postDetailsLoader ran!!");
-    return res.data;
-  };
-
+  const res = await axios.get(`${DOMAIN}/api/posts/${params.id.toString()}`);
+  console.log("postDetailsLoader ran!!");
+  return res.data;
+};
 
 export default PostDetailsPage;
