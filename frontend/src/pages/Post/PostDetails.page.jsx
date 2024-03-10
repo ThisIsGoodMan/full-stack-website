@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
 import { Button, Container } from "@mantine/core";
-// import styles from "./PostDetails.page.module.css";
 
 function PostDetailsPage() {
   const { id } = useParams();
@@ -16,7 +15,6 @@ function PostDetailsPage() {
         const res = await axios.get(`${DOMAIN}/api/posts/${id}`);
         setPost(res.data);
 
-        // Fetch user details based on the userId from the post
         const userId = res.data.userId;
 
         if (userId) {
@@ -24,12 +22,10 @@ function PostDetailsPage() {
             const userRes = await axios.get(`${DOMAIN}/api/users/${userId}`);
             setUser(userRes.data);
           } catch (userError) {
-            // Handle user not found gracefully
             console.error("Error fetching user details:", userError);
             setUser(null);
           }
         } else {
-          // No userId found in the post
           console.warn("No userId found in the post:", res.data);
           setUser(null);
         }
@@ -41,7 +37,6 @@ function PostDetailsPage() {
     fetchPostDetails();
   }, [id]);
 
-  // Function to extract user name from email
   const extractUserName = (email) => {
     const atIndex = email ? email.indexOf('@') : -1;
     return atIndex !== -1 ? email.substring(0, atIndex) : email;
@@ -78,7 +73,6 @@ function PostDetailsPage() {
 
 export const postDetailsLoader = async ({ params }) => {
   const res = await axios.get(`${DOMAIN}/api/posts/${params.id.toString()}`);
-  console.log("postDetailsLoader ran!!");
   return res.data;
 };
 

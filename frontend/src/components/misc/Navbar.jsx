@@ -15,8 +15,6 @@ const Navbar = () => {
   const extractUsername = (email) => {
     return email.split("@")[0];
   };
-  
-  console.log("User:", user);
 
   return (
     <header className={classes.header}>
