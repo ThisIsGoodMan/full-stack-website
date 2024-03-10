@@ -75,4 +75,20 @@ app.post("/api/posts", (req, res) => {
   res.status(200).json({ success: true });
 });
 
+app.put("/api/posts/:id", (req, res) => {
+  const postId = parseInt(req.params.id);
+  const { content, image } = req.body;
+
+  const postIndex = posts.findIndex((post) => post.id === postId);
+
+  if (postIndex === -1) {
+    res.status(404).json({ error: "Post not found" });
+  } else {
+    posts[postIndex].content = content;
+    posts[postIndex].image = image;
+
+    res.json({ success: true });
+  }
+});
+
 app.listen(port, () => console.log("Server is running!"));
