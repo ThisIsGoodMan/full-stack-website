@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import DOMAIN from "../../services/endpoint";
 import axios from "axios";
-import { createBrowserHistory } from "history";
+// import { createBrowserHistory } from "history";
 import { Button, Container, } from "@mantine/core";
 
 function PostEditPage() {
